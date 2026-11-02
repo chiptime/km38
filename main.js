@@ -9,9 +9,9 @@
   "use strict";
 
   const WINES = {
-    "gran-reserva": { name: "Gran Reserva", temp: "Servir entre 16 y 18 °C", theme: "#33201d" },
-    tinto: { name: "Tinto Joven", temp: "Servir entre 14 y 16 °C", theme: "#2b0b14" },
-    blanco: { name: "Blanco Joven", temp: "Servir entre 8 y 10 °C", theme: "#3a3212" },
+    "gran-reserva": { name: "Gran Reserva", temp: "Servir entre -16 y -18 °C", theme: "#33201d" },
+    tinto: { name: "Tinto Joven", temp: "Servir entre -14 y -16 °C", theme: "#2b0b14" },
+    blanco: { name: "Blanco Joven", temp: "Servir entre -8 y -10 °C", theme: "#3a3212" },
   };
   const ORDER = ["gran-reserva", "tinto", "blanco"];
 
