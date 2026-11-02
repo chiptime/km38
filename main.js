@@ -91,9 +91,9 @@
       <text x="60" y="261" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
         letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">FINCA</text>
       <g class="bottle-brand">
-        <text x="46 74" y="289 293" text-anchor="middle" font-size="36" rotate="-12 -7"
+        <text x="46 74" y="292 296" text-anchor="middle" font-size="40" rotate="-12 -7"
           style="fill:var(--label-ink)">km</text>
-        <text x="51 67" y="325 327" text-anchor="middle" font-size="46" rotate="-12 12"
+        <text x="51 67" y="324 326" text-anchor="middle" font-size="50" rotate="-12 12"
           style="fill:var(--label-ink)">38</text>
       </g>
 
