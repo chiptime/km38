@@ -9,18 +9,18 @@
   "use strict";
 
   const WINES = {
-    "gran-reserva": { name: "Gran Reserva", temp: "Servir a 16º-18ºC", theme: "#1b1310" },
-    tinto: { name: "Tinto Joven", temp: "Servir a 14º-16ºC", theme: "#2b0b14" },
-    blanco: { name: "Blanco Joven", temp: "Servir a 8º-10ºC", theme: "#3a3212" },
+    "gran-reserva": { name: "Gran Reserva", temp: "Servir entre 16 y 18 °C", theme: "#33201d" },
+    tinto: { name: "Tinto Joven", temp: "Servir entre 14 y 16 °C", theme: "#2b0b14" },
+    blanco: { name: "Blanco Joven", temp: "Servir entre 8 y 10 °C", theme: "#3a3212" },
   };
   const ORDER = ["gran-reserva", "tinto", "blanco"];
 
   // Funny feedback for the decorative cart (microcopy, review before final).
   const WANT_MESSAGES = [
     "Apuntado. Es de mentira, pero la ilusión es de verdad.",
-    "Hecho. Tu yo de mañana ya está pidiendo agua.",
+    "Hecho. En esta mesa siempre cabe alguien más.",
     "Añadido. Que conste que era «solo para un rato».",
-    "Otra más a la mesa. Nadie te juzga (bueno, un poco).",
+    "Otra más a la mesa. ¿Quién trae el sacacorchos?",
   ];
 
   const root = document.documentElement;
@@ -40,10 +40,11 @@
       <defs>
         <clipPath id="clip-${id}"><path d="${BOTTLE_PATH}"/></clipPath>
         <pattern id="dots-${id}" width="14" height="14" patternUnits="userSpaceOnUse">
-          <circle cx="3.5" cy="3.5" r="2.6" style="fill:var(--dot-a)"/>
-          <circle cx="10.5" cy="3.5" r="2.6" style="fill:var(--dot-b)"/>
-          <circle cx="3.5" cy="10.5" r="2.6" style="fill:var(--dot-c)"/>
-          <circle cx="10.5" cy="10.5" r="2.6" style="fill:var(--dot-a)"/>
+          <circle cx="3.5" cy="3.5" r="2.7" style="fill:var(--dot-a)"/>
+          <circle cx="10.5" cy="3.5" r="2.7" style="fill:var(--dot-b)"/>
+          <circle cx="0" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
+          <circle cx="7" cy="10.5" r="2.7" style="fill:var(--dot-a)"/>
+          <circle cx="14" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
         </pattern>
         <linearGradient id="shine-${id}" x1="0" x2="1">
           <stop offset="0" stop-color="#000" stop-opacity=".35"/>
@@ -65,14 +66,18 @@
         d="M45 4 Q45 2 48 2 H72 Q75 2 75 4 V62 Q75 70 72 70 Q69 70 69 63 V58 Q68 74 64 74 Q60 74 60 66 V60 Q59 68 55 68 Q51 68 51 61 V57 Q50 64 47.5 64 Q45 64 45 58 Z"/>
       <rect x="49" y="8" width="3" height="46" rx="1.5" fill="#fff" opacity=".18"/>
 
-      <!-- oval label -->
-      <ellipse class="bottle-label" cx="60" cy="292" rx="38" ry="48" style="fill:var(--label)"/>
-      <text x="60" y="262" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
-        letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">VINO DE FINCA</text>
-      <text x="58" y="290" text-anchor="middle" font-family="'Gochi Hand', cursive" font-size="32"
-        style="fill:var(--label-ink)">km</text>
-      <text x="61" y="328" text-anchor="middle" font-family="'Gochi Hand', cursive" font-size="42"
-        style="fill:var(--label-ink)">38</text>
+      <!-- round label -->
+      <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--label)"/>
+      <text x="60" y="253" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
+        letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">VINO DE</text>
+      <text x="60" y="261" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
+        letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">FINCA</text>
+      <g class="bottle-brand">
+        <text x="46 74" y="289 293" text-anchor="middle" font-size="36" rotate="-12 -7"
+          style="fill:var(--label-ink)">km</text>
+        <text x="51 67" y="325 327" text-anchor="middle" font-size="46" rotate="-12 12"
+          style="fill:var(--label-ink)">38</text>
+      </g>
 
       <!-- kraft tag hanging from the neck -->
       <path d="M73 96 C82 104 90 118 96 132" fill="none" stroke="#b08a55" stroke-width="1.4"/>

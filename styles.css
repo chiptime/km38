@@ -4,17 +4,25 @@
    so the whole page recolors when the hero slider changes the bottle.
    ========================================================================== */
 
+@font-face {
+  font-family: "Gaegu";
+  src: url("assets/Gaegu-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
-  --paper: #f7f1e6;
-  --paper-deep: #efe6d6;
-  --ink: #16120f;
-  --muted: #6b6158;
-  --line: rgba(22, 18, 15, 0.16);
-  --sun: #e6c94c;
+  --paper: #fbf1e4;
+  --paper-deep: #f0dfd2;
+  --ink: #382626;
+  --muted: #6e5550;
+  --line: rgba(76, 51, 43, 0.18);
+  --sun: #ebc275;
 
   --font-sans: "Archivo", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
-  --font-hand: "Gochi Hand", "Comic Sans MS", cursive;
+  --font-hand: "Gaegu", "Comic Sans MS", cursive;
 
   --pad: clamp(20px, 5vw, 80px);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -22,16 +30,16 @@
 
 /* Wine palettes ----------------------------------------------------------- */
 [data-wine="gran-reserva"] {
-  --glass: #1b1310;
-  --dot-a: #ecd5a6;
-  --dot-b: #c89d5f;
-  --dot-c: #8d6a40;
-  --wax: #4b2a19;
-  --label: #c9a35b;
-  --label-ink: #1b1310;
-  --accent: #a8741f;
+  --glass: #33201d;
+  --dot-a: #f2d9b8;
+  --dot-b: #d6ad83;
+  --dot-c: #9e755d;
+  --wax: #59372c;
+  --label: #d8ab72;
+  --label-ink: #33201d;
+  --accent: #925547;
   --accent-ink: #fff8ec;
-  --tint: #ecdcbd;
+  --tint: #f2d9cb;
 }
 
 [data-wine="tinto"] {
@@ -40,11 +48,11 @@
   --dot-b: #d36c7f;
   --dot-c: #93283f;
   --wax: #6e1427;
-  --label: #f0c4b8;
+  --label: #e3a893;
   --label-ink: #2b0b14;
-  --accent: #8f1d33;
+  --accent: #91515a;
   --accent-ink: #fff3f1;
-  --tint: #f2d6d2;
+  --tint: #f1d7d7;
 }
 
 [data-wine="blanco"] {
@@ -53,11 +61,11 @@
   --dot-b: #f1d052;
   --dot-c: #b8952a;
   --wax: #d9a423;
-  --label: #fff5da;
+  --label: #f3dfa5;
   --label-ink: #3a3212;
-  --accent: #b38d0a;
-  --accent-ink: #1d1806;
-  --tint: #f3ecbd;
+  --accent: #826514;
+  --accent-ink: #fff9e8;
+  --tint: #f6e8c9;
 }
 
 /* Base -------------------------------------------------------------------- */
@@ -77,7 +85,7 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--ink);
-  background: #120d0a;
+  background: #281c18;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -126,7 +134,7 @@ ul {
   position: relative;
   margin: clamp(10px, 2.2vw, 34px);
   background: var(--paper);
-  border-radius: 6px;
+  border-radius: 12px;
   overflow-x: clip;
   box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
 }
@@ -136,11 +144,11 @@ ul {
   background: linear-gradient(
     90deg,
     var(--accent) 0 22%,
-    #8f1d33 22% 24%,
+    #ad6b76 22% 24%,
     var(--accent) 24% 51%,
     var(--sun) 51% 54%,
     var(--accent) 54% 76%,
-    #1b1310 76% 79%,
+    #52362d 76% 79%,
     var(--accent) 79% 100%
   );
   transition: background 0.6s var(--ease);
@@ -165,6 +173,7 @@ ul {
   color: var(--label-ink);
   font-family: var(--font-hand);
   font-size: 1.45rem;
+  font-weight: 700;
   line-height: 0.78;
   text-decoration: none;
   transform: rotate(-6deg);
@@ -261,7 +270,7 @@ ul {
   place-items: center;
   min-height: 480px;
   background: var(--tint);
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
   transition: background-color 0.6s var(--ease);
 }
@@ -350,7 +359,7 @@ ul {
   margin-bottom: 14px;
   font-family: var(--font-hand);
   font-size: 0.55em;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: none;
   letter-spacing: 0;
   color: var(--accent);
@@ -401,6 +410,7 @@ ul {
   display: inline-block;
   padding: 17px 36px;
   border: 2px solid var(--ink);
+  border-radius: 6px;
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -592,6 +602,7 @@ ul {
 .quote {
   margin: 30px 0 0;
   padding: clamp(28px, 4vw, 48px);
+  border-radius: 10px;
   background: var(--accent);
   color: var(--accent-ink);
   transition: background-color 0.6s var(--ease), color 0.6s var(--ease);
@@ -763,6 +774,7 @@ html[data-wine="gran-reserva"] .card[data-wine="gran-reserva"] {
   background: var(--accent);
   color: var(--accent-ink);
   clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  transform: rotate(-4deg);
   font-size: 0.66rem;
   font-weight: 800;
   line-height: 1.15;
@@ -929,6 +941,11 @@ html[data-wine="gran-reserva"] .card[data-wine="gran-reserva"] .card__bottle {
 .bottle-wax,
 .bottle-label {
   transition: fill 0.6s var(--ease);
+}
+
+.bottle-brand {
+  font-family: var(--font-hand);
+  font-weight: 700;
 }
 
 /* Toast ------------------------------------------------------------------- */
