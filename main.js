@@ -35,16 +35,38 @@
   const BOTTLE_PATH =
     "M53 8 H67 Q73 8 73 14 V118 C75 160 108 172 108 214 V374 Q108 392 90 392 H30 Q12 392 12 374 V214 C12 172 45 160 47 118 V14 Q47 8 53 8 Z";
 
+  // Hand-stamped polka dots: diagonal rows with uniform spacing but slight,
+  // deterministic variations in size and position (seeded, so every load and
+  // every bottle shows the same "hand-made" print).
+  const dotField = () => {
+    let seed = 38;
+    const rand = () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    };
+    const ROW = 13;   // vertical spacing between rows
+    const PITCH = 13; // horizontal spacing between dots
+    const SHEAR = 4;  // per-row shift that draws the diagonal
+    let dots = "";
+    let row = 0;
+    for (let y = 60; y < 402; y += ROW + (rand() - 0.5), row += 1) {
+      const colors = row % 2 ? ["--dot-c", "--dot-a"] : ["--dot-a", "--dot-b"];
+      const shift = (row * SHEAR) % PITCH;
+      let i = 0;
+      for (let x = -8 + shift; x < 132; x += PITCH + (rand() - 0.5) * 1.2, i += 1) {
+        const r = 2.35 + rand() * 0.7;
+        const cx = x + (rand() - 0.5) * 1.6;
+        const cy = y + (rand() - 0.5) * 1.6;
+        dots += `<circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}" style="fill:var(${colors[i % 2]})"/>`;
+      }
+    }
+    return dots;
+  };
+
   const bottleSVG = (id) => `
     <svg viewBox="0 0 124 400" xmlns="http://www.w3.org/2000/svg" focusable="false">
       <defs>
         <clipPath id="clip-${id}"><path d="${BOTTLE_PATH}"/></clipPath>
-        <pattern id="dots-${id}" width="14" height="14" patternUnits="userSpaceOnUse">
-          <circle cx="3.5" cy="3.5" r="2.7" style="fill:var(--dot-a)"/>
-          <circle cx="10.5" cy="3.5" r="2.7" style="fill:var(--dot-b)"/>
-          <circle cx="3.5" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
-          <circle cx="10.5" cy="10.5" r="2.7" style="fill:var(--dot-a)"/>
-        </pattern>
         <linearGradient id="shine-${id}" x1="0" x2="1">
           <stop offset="0" stop-color="#000" stop-opacity=".35"/>
           <stop offset=".22" stop-color="#fff" stop-opacity=".28"/>
@@ -56,7 +78,7 @@
 
       <g clip-path="url(#clip-${id})">
         <rect class="bottle-glass" width="124" height="400" style="fill:var(--glass)"/>
-        <rect y="60" width="124" height="340" fill="url(#dots-${id})"/>
+        <g class="bottle-dots">${dotField()}</g>
         <rect width="124" height="400" fill="url(#shine-${id})"/>
       </g>
 
