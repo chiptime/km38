@@ -1,12 +1,229 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" data-wine="gran-reserva">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KM38</title>
+  <title>KM38 — Vinos de finca, risas largas y cero complejos</title>
+  <meta name="description" content="Una producción exclusiva y limitada que nace en la Finca &quot;El Encín&quot; (Alcalá de Henares), pensada para abrirse sin prisa y acabar amaneciendo alrededor de una mesa.">
+  <meta name="theme-color" content="#16120f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='32' rx='30' ry='26' fill='%23c9a35b'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial' font-weight='900' font-size='26' fill='%231b1310'%3E38%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Gochi+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
-  <h1>KM38</h1>
-  <p>Coming soon.</p>
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <div class="sheet" id="top">
+    <div class="stripe" aria-hidden="true"></div>
+
+    <header class="header">
+      <a class="logo" href="#top" aria-label="KM38, volver al inicio">
+        <span>km</span><span>38</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#vinos">Vinos</a>
+        <a href="#finca">La finca</a>
+        <a href="#filosofia">Filosofía</a>
+        <button class="nav__cart" type="button" data-cart>
+          Brindar <span class="nav__count" data-cart-count>0</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- 1. Hero -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__stage">
+          <svg class="ring" viewBox="0 0 400 400" aria-hidden="true">
+            <defs>
+              <path id="ring-path" d="M200 200 m-168 0 a168 168 0 1 1 336 0 a168 168 0 1 1 -336 0"/>
+            </defs>
+            <text>
+              <textPath href="#ring-path" textLength="1050" lengthAdjust="spacing">KM38 · Kilómetro 38 · A-2 · Finca El Encín ·</textPath>
+            </text>
+          </svg>
+          <div class="slot slot--hero" data-slot="hero" aria-hidden="true"></div>
+          <p class="sticker" data-microcopy>Edición limitada <span>(de verdad)</span></p>
+        </div>
+
+        <div class="hero__copy">
+          <p class="eyebrow reveal">Finca “El Encín” · Alcalá de Henares</p>
+          <h1 id="hero-title" class="hero__title reveal">
+            <span class="hero__brand">KM38 —</span>
+            Vinos de finca, risas largas y cero complejos.
+          </h1>
+          <p class="hero__lead reveal">Una producción exclusiva y limitada que nace en la Finca "El Encín" (Alcalá de Henares), pensada para abrirse sin prisa y acabar amaneciendo alrededor de una mesa.</p>
+
+          <div class="pick reveal" aria-live="polite">
+            <span class="pick__label" data-microcopy>Ahora en la mesa</span>
+            <strong class="pick__name" data-wine-name>Gran Reserva</strong>
+            <span class="pick__temp" data-wine-temp>Servir a 16º-18ºC</span>
+          </div>
+
+          <a class="btn reveal" href="#vinos" data-microcopy>Elegir mi botella</a>
+        </div>
+
+        <div class="hero__bar">
+          <span class="hero__count"><span data-wine-index>01</span>/03</span>
+          <span class="hero__progress" aria-hidden="true"><span></span></span>
+          <div class="hero__arrows">
+            <button type="button" data-prev aria-label="Vino anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" data-next aria-label="Vino siguiente">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ticker -->
+      <div class="marquee" aria-hidden="true" data-microcopy>
+        <div class="marquee__track">
+          <span>Abrir solo para un rato</span><i>✦</i>
+          <span>Acabar amaneciendo</span><i>✦</i>
+          <span>Cero complejos</span><i>✦</i>
+          <span>Risas largas</span><i>✦</i>
+          <span>El chiste malo lo pones tú</span><i>✦</i>
+          <span>Abrir solo para un rato</span><i>✦</i>
+          <span>Acabar amaneciendo</span><i>✦</i>
+          <span>Cero complejos</span><i>✦</i>
+          <span>Risas largas</span><i>✦</i>
+          <span>El chiste malo lo pones tú</span><i>✦</i>
+        </div>
+      </div>
+
+      <!-- Perks -->
+      <ul class="perks" data-microcopy>
+        <li class="reveal">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="5.5"/><path d="M16 3v4M16 25v4M3 16h4M25 16h4M6.8 6.8l2.8 2.8M22.4 22.4l2.8 2.8M6.8 25.2l2.8-2.8M22.4 9.6l2.8-2.8"/></svg>
+          Sol de Alcalá
+        </li>
+        <li class="reveal">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c0 3 2 4 4 4"/><circle cx="12" cy="12" r="3.4"/><circle cx="19.5" cy="12" r="3.4"/><circle cx="15.8" cy="18" r="3.4"/><circle cx="8.6" cy="18" r="3.4"/><circle cx="23" cy="18" r="3.4"/><circle cx="12" cy="24" r="3.4"/><circle cx="19.5" cy="24" r="3.4"/></svg>
+          Uva sin dramas
+        </li>
+        <li class="reveal">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27S4.5 20 4.5 11.8A6 6 0 0 1 16 9a6 6 0 0 1 11.5 2.8C27.5 20 16 27 16 27z"/></svg>
+          Hecho a mano
+        </li>
+        <li class="reveal">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s-9-9.2-9-16a9 9 0 0 1 18 0c0 6.8-9 16-9 16z"/><circle cx="16" cy="13" r="3.2"/></svg>
+          Km 38 exacto
+        </li>
+      </ul>
+
+      <!-- 2. Historia y esencia -->
+      <section class="story" id="finca" aria-labelledby="story-title">
+        <div class="story__copy">
+          <p class="eyebrow reveal">Historia y Esencia</p>
+          <h2 id="story-title" class="section-title reveal">¿Por qué la Finca "El Encín"?</h2>
+
+          <article class="story__block reveal">
+            <span class="story__num">01</span>
+            <div>
+              <h3>El origen exclusivo</h3>
+              <p>En el kilómetro 38 de la A-2 se esconde nuestro particular laboratorio clandestino. La Finca "El Encín" no es solo un punto en el mapa; es el refugio donde cultivamos y elaboramos de forma artesanal vinos con una personalidad única y limitada.</p>
+            </div>
+          </article>
+
+          <article class="story__block reveal" id="filosofia">
+            <span class="story__num">02</span>
+            <div>
+              <h3>Nuestra filosofía</h3>
+              <p>Aquí no venimos a hacer vino industrial. Hacemos botellas con alma, hechas para brindar por el descubrimiento, por la tierra y por los momentos que de verdad importan. Cada diseño y cada detalle buscan celebrar el arte de disfrutar de un buen trago sin pretensiones, apostando por lo auténtico y lo cercano.</p>
+            </div>
+          </article>
+
+          <blockquote class="quote reveal" data-microcopy>
+            <p>“Íbamos a abrir una para probarla. Era martes. Seguimos sin saber qué pasó el miércoles.”</p>
+            <cite>— Un vecino de la finca, bastante feliz</cite>
+          </blockquote>
+        </div>
+
+        <div class="story__aside">
+          <div class="milestone reveal" aria-hidden="true">
+            <span class="milestone__road">A-2</span>
+            <span class="milestone__km">38</span>
+            <span class="milestone__unit">km</span>
+          </div>
+          <div class="slot slot--story" data-slot="story" aria-hidden="true"></div>
+          <ul class="grapes reveal">
+            <li><span class="grape grape--malvar"></span>Malvar</li>
+            <li><span class="grape grape--tempranillo"></span>Tempranillo</li>
+            <li><span class="grape grape--garnacha"></span>Garnacha</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3. Las joyas de la finca -->
+      <section class="wines" id="vinos" aria-labelledby="wines-title">
+        <header class="wines__head">
+          <p class="eyebrow reveal">Nuestros vinos</p>
+          <h2 id="wines-title" class="section-title reveal">Las Joyas de la Finca</h2>
+          <p class="reveal">Cada botella cuenta su propia historia a través de una cuidada selección y un código cromático que refleja el ciclo natural de la uva:</p>
+        </header>
+
+        <div class="wines__grid">
+          <article class="card" data-wine="blanco">
+            <span class="badge" data-microcopy>Fresquito</span>
+            <div class="card__media">
+              <div class="slot slot--card" data-slot="blanco"><div class="card__bottle" data-bottle></div></div>
+              <button class="card__cta" type="button" data-want="blanco" data-microcopy>Lo quiero ya</button>
+            </div>
+            <div class="card__body reveal">
+              <h3 class="card__name">KM38 — Vino Blanco Joven</h3>
+              <p class="card__temp">Servir a 8º-10ºC</p>
+              <p class="card__spirit"><span>El espíritu:</span> Brindemos por el brillo del malvar bajo el sol de Alcalá y por cada grado de frescor que enciende la mesa. Un vino vivo, fresco y directo al paladar.</p>
+            </div>
+          </article>
+
+          <article class="card" data-wine="tinto">
+            <span class="badge" data-microcopy>Solo un rato</span>
+            <div class="card__media">
+              <div class="slot slot--card" data-slot="tinto"><div class="card__bottle" data-bottle></div></div>
+              <button class="card__cta" type="button" data-want="tinto" data-microcopy>Lo quiero ya</button>
+            </div>
+            <div class="card__body reveal">
+              <h3 class="card__name">KM38 — Vino Tinto Joven</h3>
+              <p class="card__temp">Servir a 14º-16ºC</p>
+              <p class="card__spirit"><span>El espíritu:</span> La fuerza del tempranillo y la garnacha pensada para esas botellas que se abren "solo para un rato" y acaban alargándose hasta el amanecer.</p>
+            </div>
+          </article>
+
+          <article class="card" data-wine="gran-reserva">
+            <span class="badge" data-microcopy>Edad: más que tu ex</span>
+            <div class="card__media">
+              <div class="slot slot--card" data-slot="gran-reserva"><div class="card__bottle" data-bottle></div></div>
+              <button class="card__cta" type="button" data-want="gran-reserva" data-microcopy>Lo quiero ya</button>
+            </div>
+            <div class="card__body reveal">
+              <h3 class="card__name">KM38 — Vino Gran Reserva</h3>
+              <p class="card__temp">Servir a 16º-18ºC</p>
+              <p class="card__spirit"><span>El espíritu:</span> Un homenaje a la paciencia. Años de reposo en botella y barrica para una selección muy vieja que guarda toda la memoria y el carácter de la finca.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- 4. Footer -->
+    <footer class="footer">
+      <p class="footer__closing reveal">Porque cuando seamos viejos, solo nos acordaremos de los buenos brindis.</p>
+      <div class="footer__row">
+        <a class="logo logo--light" href="#top" aria-label="KM38, volver al inicio"><span>km</span><span>38</span></a>
+        <p>KM38 — Finca "El Encín", Alcalá de Henares, Madrid. D.O. Vinos de Madrid.</p>
+        <a class="footer__up" href="#top" data-microcopy>Volver al km 0 ↑</a>
+      </div>
+    </footer>
+
+    <!-- The bottle that travels down the page with the scroll -->
+    <div class="flier" data-flier aria-hidden="true"><div data-bottle></div></div>
+  </div>
+
+  <div class="toast" role="status" data-toast></div>
 </body>
 </html>

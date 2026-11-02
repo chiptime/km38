@@ -1,0 +1,1066 @@
+/* ==========================================================================
+   KM38 — landing
+   Palette lives in CSS variables. Each wine (data-wine) swaps its own set,
+   so the whole page recolors when the hero slider changes the bottle.
+   ========================================================================== */
+
+:root {
+  --paper: #f7f1e6;
+  --paper-deep: #efe6d6;
+  --ink: #16120f;
+  --muted: #6b6158;
+  --line: rgba(22, 18, 15, 0.16);
+  --sun: #e6c94c;
+
+  --font-sans: "Archivo", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-hand: "Gochi Hand", "Comic Sans MS", cursive;
+
+  --pad: clamp(20px, 5vw, 80px);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Wine palettes ----------------------------------------------------------- */
+[data-wine="gran-reserva"] {
+  --glass: #1b1310;
+  --dot-a: #ecd5a6;
+  --dot-b: #c89d5f;
+  --dot-c: #8d6a40;
+  --wax: #4b2a19;
+  --label: #c9a35b;
+  --label-ink: #1b1310;
+  --accent: #a8741f;
+  --accent-ink: #fff8ec;
+  --tint: #ecdcbd;
+}
+
+[data-wine="tinto"] {
+  --glass: #2b0b14;
+  --dot-a: #f4c1bd;
+  --dot-b: #d36c7f;
+  --dot-c: #93283f;
+  --wax: #6e1427;
+  --label: #f0c4b8;
+  --label-ink: #2b0b14;
+  --accent: #8f1d33;
+  --accent-ink: #fff3f1;
+  --tint: #f2d6d2;
+}
+
+[data-wine="blanco"] {
+  --glass: #d6cc84;
+  --dot-a: #fffbea;
+  --dot-b: #f1d052;
+  --dot-c: #b8952a;
+  --wax: #d9a423;
+  --label: #fff5da;
+  --label-ink: #3a3212;
+  --accent: #b38d0a;
+  --accent-ink: #1d1806;
+  --tint: #f3ecbd;
+}
+
+/* Base -------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: #120d0a;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Frame: the page is a sheet resting on a blurred photo ------------------- */
+.backdrop {
+  position: fixed;
+  inset: -60px;
+  z-index: -1;
+  background: url("assets/km38-reference.webp") center / cover no-repeat;
+  filter: blur(22px) saturate(0.85) brightness(0.5);
+}
+
+.sheet {
+  position: relative;
+  margin: clamp(10px, 2.2vw, 34px);
+  background: var(--paper);
+  border-radius: 6px;
+  overflow-x: clip;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+}
+
+.stripe {
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0 22%,
+    #8f1d33 22% 24%,
+    var(--accent) 24% 51%,
+    var(--sun) 51% 54%,
+    var(--accent) 54% 76%,
+    #1b1310 76% 79%,
+    var(--accent) 79% 100%
+  );
+  transition: background 0.6s var(--ease);
+}
+
+/* Header ------------------------------------------------------------------ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px var(--pad);
+}
+
+.logo {
+  display: inline-grid;
+  place-items: center;
+  width: 70px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--label);
+  color: var(--label-ink);
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  line-height: 0.78;
+  text-decoration: none;
+  transform: rotate(-6deg);
+  transition: background-color 0.6s var(--ease), transform 0.3s var(--ease);
+}
+
+.logo span:last-child {
+  font-size: 1.25em;
+}
+
+.logo:hover {
+  transform: rotate(4deg) scale(1.05);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 4vw, 64px);
+}
+
+.nav a,
+.nav__cart {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.nav a {
+  position: relative;
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease);
+}
+
+.nav a:hover::after {
+  transform: scaleX(1);
+}
+
+.nav__cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.nav__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 13px;
+  background: var(--ink);
+  color: var(--paper);
+  letter-spacing: 0;
+  transition: transform 0.3s var(--ease);
+}
+
+.nav__count.is-bump {
+  animation: bump 0.45s var(--ease);
+}
+
+@keyframes bump {
+  40% { transform: scale(1.35) rotate(-8deg); }
+}
+
+/* Hero -------------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  column-gap: clamp(28px, 5vw, 90px);
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding: 0 var(--pad);
+  min-height: calc(100svh - 150px);
+}
+
+.hero__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 480px;
+  background: var(--tint);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: background-color 0.6s var(--ease);
+}
+
+.ring {
+  position: absolute;
+  width: min(86%, 470px);
+  aspect-ratio: 1;
+  animation: spin 46s linear infinite;
+}
+
+.ring text {
+  font-family: var(--font-sans);
+  font-size: 23px;
+  font-weight: 900;
+  font-stretch: 112%;
+  text-transform: uppercase;
+  fill: var(--ink);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.slot {
+  position: relative;
+  aspect-ratio: 120 / 400;
+}
+
+.slot--hero {
+  z-index: 1;
+  height: min(56vh, 500px);
+}
+
+.sticker {
+  position: absolute;
+  right: 7%;
+  bottom: 8%;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  width: 108px;
+  height: 108px;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--sun);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  transform: rotate(-12deg);
+}
+
+.sticker span {
+  font-weight: 400;
+  font-size: 0.72rem;
+}
+
+.hero__copy {
+  align-self: center;
+  padding: 24px 0;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transition: color 0.6s var(--ease);
+}
+
+.hero__title {
+  margin: 0 0 26px;
+  font-size: clamp(2.2rem, 3.9vw, 4.2rem);
+  font-weight: 900;
+  font-stretch: 108%;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.hero__brand {
+  display: block;
+  margin-bottom: 14px;
+  font-family: var(--font-hand);
+  font-size: 0.55em;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--accent);
+  transition: color 0.6s var(--ease);
+}
+
+.hero__lead {
+  max-width: 46ch;
+  margin: 0 0 32px;
+  font-size: 1.08rem;
+  color: var(--muted);
+}
+
+.pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  max-width: 460px;
+  margin-bottom: 34px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.pick__label {
+  flex-basis: 100%;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pick__name {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.pick__temp {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-block;
+  padding: 17px 36px;
+  border: 2px solid var(--ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: linear-gradient(var(--ink), var(--ink)) left / 0% 100% no-repeat;
+  transition: background-size 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.btn:hover {
+  background-size: 100% 100%;
+  color: var(--paper);
+}
+
+.hero__bar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px 0 34px;
+}
+
+.hero__count {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.hero__progress {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+}
+
+.hero__progress span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--step, 1) * 100% / 3);
+  background: var(--ink);
+  transition: width 0.6s var(--ease);
+}
+
+.hero__arrows {
+  display: flex;
+  gap: 6px;
+}
+
+.hero__arrows button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.hero__arrows button:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.hero__arrows svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Marquee ----------------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  padding: 20px 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee span {
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee i {
+  font-style: normal;
+  color: var(--label);
+  transition: color 0.6s var(--ease);
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Perks ------------------------------------------------------------------- */
+.perks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 0 var(--pad);
+  padding: 46px 0;
+  border-bottom: 1px solid var(--ink);
+}
+
+.perks li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  font-weight: 600;
+}
+
+.perks svg {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Story ------------------------------------------------------------------- */
+.story {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(32px, 6vw, 110px);
+  padding: clamp(80px, 11vw, 170px) var(--pad);
+}
+
+.section-title {
+  margin: 0 0 48px;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 900;
+  font-stretch: 108%;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.story__block {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 8px;
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+
+.story__num {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--accent);
+  transition: color 0.6s var(--ease);
+}
+
+.story__block h3 {
+  margin: 6px 0 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.story__block p {
+  max-width: 58ch;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.quote {
+  margin: 30px 0 0;
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--accent);
+  color: var(--accent-ink);
+  transition: background-color 0.6s var(--ease), color 0.6s var(--ease);
+}
+
+.quote p {
+  margin: 0 0 16px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.quote cite {
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.story__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.milestone {
+  display: grid;
+  justify-items: center;
+  width: 150px;
+  padding: 14px 10px 10px;
+  border: 4px solid #fff;
+  border-radius: 12px;
+  background: #1e4f9e;
+  color: #fff;
+  box-shadow: 0 0 0 2px #1e4f9e, 0 18px 40px rgba(30, 79, 158, 0.3);
+  transform: rotate(-5deg);
+}
+
+.js .milestone.reveal.is-in {
+  transform: rotate(-5deg);
+}
+
+.milestone__road {
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #fff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.milestone__km {
+  font-size: 4.6rem;
+  font-weight: 900;
+  font-stretch: 90%;
+  line-height: 1;
+}
+
+.milestone__unit {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.slot--story {
+  height: min(56vh, 460px);
+}
+
+.grapes {
+  display: flex;
+  gap: 22px;
+}
+
+.grapes li {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.grape {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background-size: 18px 18px, cover;
+}
+
+.grape--malvar {
+  background-image:
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.55) 0 3px, transparent 4px),
+    radial-gradient(circle at 30% 30%, #ece58f, #9faf45);
+}
+
+.grape--tempranillo {
+  background-image:
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.35) 0 3px, transparent 4px),
+    radial-gradient(circle at 30% 30%, #7b2a52, #2a0b22);
+}
+
+.grape--garnacha {
+  background-image:
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.4) 0 3px, transparent 4px),
+    radial-gradient(circle at 30% 30%, #e27b98, #8e2a4a);
+}
+
+/* Wines ------------------------------------------------------------------- */
+.wines {
+  padding: 0 var(--pad) clamp(90px, 12vw, 180px);
+}
+
+.wines__head {
+  max-width: 62ch;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.wines__head .section-title {
+  margin-bottom: 22px;
+}
+
+.wines__head p:last-child {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.wines__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  position: relative;
+  padding: 26px clamp(18px, 3vw, 44px) 36px;
+  text-align: center;
+  transition: background-color 0.6s var(--ease);
+}
+
+.card + .card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 40px;
+  height: 380px;
+  width: 1px;
+  background: var(--ink);
+}
+
+html[data-wine="blanco"] .card[data-wine="blanco"],
+html[data-wine="tinto"] .card[data-wine="tinto"],
+html[data-wine="gran-reserva"] .card[data-wine="gran-reserva"] {
+  background: color-mix(in srgb, var(--tint) 55%, transparent);
+}
+
+.badge {
+  position: absolute;
+  top: 24px;
+  right: clamp(14px, 2.4vw, 36px);
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  width: 86px;
+  height: 86px;
+  padding: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-top: 22px;
+}
+
+.card__media {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  height: 420px;
+}
+
+.slot--card {
+  height: 360px;
+}
+
+.card__bottle {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s var(--ease);
+}
+
+.card:hover .card__bottle {
+  transform: translateY(-8px) rotate(-3deg);
+}
+
+/* The flying bottle replaces the static one of the selected wine. */
+html[data-wine="blanco"] .card[data-wine="blanco"] .card__bottle,
+html[data-wine="tinto"] .card[data-wine="tinto"] .card__bottle,
+html[data-wine="gran-reserva"] .card[data-wine="gran-reserva"] .card__bottle {
+  visibility: hidden;
+}
+
+.card__cta {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  z-index: 6;
+  padding: 14px 24px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 10px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+
+.card:hover .card__cta,
+.card:focus-within .card__cta {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.card__cta:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.card__name {
+  margin: 26px 0 6px;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.card__temp {
+  margin: 0 0 16px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.card__spirit {
+  max-width: 36ch;
+  margin: 0 auto;
+  font-size: 0.98rem;
+  color: var(--muted);
+}
+
+.card__spirit span {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Footer ------------------------------------------------------------------ */
+.footer {
+  padding: clamp(80px, 10vw, 150px) var(--pad) 40px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.footer__closing {
+  max-width: 19ch;
+  margin: 0 0 clamp(60px, 8vw, 120px);
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 5.4vw, 5rem);
+  font-style: italic;
+  line-height: 1.05;
+}
+
+.footer__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(247, 241, 230, 0.2);
+  font-size: 0.9rem;
+}
+
+.footer__row p {
+  margin: 0;
+  color: rgba(247, 241, 230, 0.72);
+}
+
+.footer__up {
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+/* Flying bottle ----------------------------------------------------------- */
+.flier {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.4s var(--ease);
+}
+
+.flier.is-ready {
+  opacity: 1;
+}
+
+.flier > div,
+.flier svg,
+.card__bottle svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flier svg {
+  filter: drop-shadow(0 26px 22px rgba(22, 18, 15, 0.28));
+}
+
+.bottle-glass,
+.bottle-wax,
+.bottle-label {
+  transition: fill 0.6s var(--ease);
+}
+
+/* Toast ------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 20;
+  max-width: calc(100vw - 32px);
+  padding: 14px 24px;
+  border-radius: 40px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.92rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.toast.is-on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Reveal on scroll (only when JS is running) ------------------------------ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .hero__stage {
+    min-height: 0;
+    padding: 50px 0;
+  }
+
+  .slot--hero {
+    height: min(52vh, 420px);
+  }
+
+  .story {
+    grid-template-columns: 1fr;
+  }
+
+  .perks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wines__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card + .card::before {
+    left: 15%;
+    right: 15%;
+    top: 0;
+    width: auto;
+    height: 1px;
+  }
+
+  .card__cta {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .nav a {
+    display: none;
+  }
+
+  .perks {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .story__block {
+    grid-template-columns: 1fr;
+  }
+
+  .sticker {
+    top: 5%;
+    right: 5%;
+    bottom: auto;
+    width: 88px;
+    height: 88px;
+    font-size: 0.72rem;
+  }
+
+  .grapes {
+    gap: 14px;
+  }
+
+  .grape {
+    width: 66px;
+    height: 66px;
+  }
+}
+
+@media (hover: none) {
+  .card__cta {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ring,
+  .marquee__track {
+    animation: none;
+  }
+
+  .js .reveal {
+    transform: none;
+    transition: opacity 0.4s linear;
+  }
+}
