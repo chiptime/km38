@@ -35,29 +35,26 @@
   const BOTTLE_PATH =
     "M53 8 H67 Q73 8 73 14 V118 C75 160 108 172 108 214 V374 Q108 392 90 392 H30 Q12 392 12 374 V214 C12 172 45 160 47 118 V14 Q47 8 53 8 Z";
 
-  // Hand-stamped polka dots: diagonal rows with uniform spacing but slight,
-  // deterministic variations in size and position (seeded, so every load and
-  // every bottle shows the same "hand-made" print).
+  // Hand-stamped polka dots: vertical columns, each column one solid color,
+  // colors changing column to column. Slight deterministic variations in size
+  // and position (seeded) keep the hand-made print look.
   const dotField = () => {
     let seed = 38;
     const rand = () => {
       seed = (seed * 1664525 + 1013904223) >>> 0;
       return seed / 4294967296;
     };
-    const ROW = 13;   // vertical spacing between rows
-    const PITCH = 13; // horizontal spacing between dots
-    const SHEAR = 4;  // per-row shift that draws the diagonal
+    const GAP = 13;
+    const COLORS = ["--dot-a", "--dot-b", "--dot-c"];
     let dots = "";
-    let row = 0;
-    for (let y = 60; y < 402; y += ROW + (rand() - 0.5), row += 1) {
-      const colors = row % 2 ? ["--dot-c", "--dot-a"] : ["--dot-a", "--dot-b"];
-      const shift = (row * SHEAR) % PITCH;
-      let i = 0;
-      for (let x = -8 + shift; x < 132; x += PITCH + (rand() - 0.5) * 1.2, i += 1) {
+    let col = 0;
+    for (let x = 6; x < 122; x += GAP, col += 1) {
+      const color = COLORS[col % COLORS.length];
+      for (let y = 60; y < 402; y += GAP) {
         const r = 2.35 + rand() * 0.7;
         const cx = x + (rand() - 0.5) * 1.6;
         const cy = y + (rand() - 0.5) * 1.6;
-        dots += `<circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}" style="fill:var(${colors[i % 2]})"/>`;
+        dots += `<circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}" style="fill:var(${color})"/>`;
       }
     }
     return dots;
