@@ -42,9 +42,8 @@
         <pattern id="dots-${id}" width="14" height="14" patternUnits="userSpaceOnUse">
           <circle cx="3.5" cy="3.5" r="2.7" style="fill:var(--dot-a)"/>
           <circle cx="10.5" cy="3.5" r="2.7" style="fill:var(--dot-b)"/>
-          <circle cx="0" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
-          <circle cx="7" cy="10.5" r="2.7" style="fill:var(--dot-a)"/>
-          <circle cx="14" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
+          <circle cx="3.5" cy="10.5" r="2.7" style="fill:var(--dot-c)"/>
+          <circle cx="10.5" cy="10.5" r="2.7" style="fill:var(--dot-a)"/>
         </pattern>
         <linearGradient id="shine-${id}" x1="0" x2="1">
           <stop offset="0" stop-color="#000" stop-opacity=".35"/>
