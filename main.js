@@ -61,6 +61,20 @@
     return dots;
   };
 
+  const labelSVG = (description = "") => `
+      <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--bottle-label)"/>
+      ${description}
+      <g class="bottle-brand">
+        <text x="45 75" y="288 292" text-anchor="middle" font-size="55" rotate="-12 -7"
+          style="fill:var(--bottle-label-ink)">km</text>
+        <text x="48 72" y="328 330" text-anchor="middle" font-size="68" rotate="-12 12"
+          style="fill:var(--bottle-label-ink)">38</text>
+      </g>`;
+
+  const bottleDescriptionSVG = `
+      <text data-bottle-description x="60" y="258" text-anchor="middle" font-size="6"
+        letter-spacing=".4" style="fill:var(--bottle-label-ink);font-family:var(--font-hand);font-weight:700"></text>`;
+
   const bottleSVG = (id) => `
     <svg viewBox="0 0 124 400" xmlns="http://www.w3.org/2000/svg" focusable="false">
       <defs>
@@ -86,15 +100,7 @@
       <rect x="49" y="8" width="3" height="46" rx="1.5" fill="#fff" opacity=".18"/>
 
       <!-- round label -->
-      <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--bottle-label)"/>
-      <text data-bottle-description x="60" y="258" text-anchor="middle" font-size="6"
-        letter-spacing=".4" style="fill:var(--bottle-label-ink);font-family:var(--font-hand);font-weight:700"></text>
-      <g class="bottle-brand">
-        <text x="45 75" y="288 292" text-anchor="middle" font-size="55" rotate="-12 -7"
-          style="fill:var(--bottle-label-ink)">km</text>
-        <text x="48 72" y="328 330" text-anchor="middle" font-size="68" rotate="-12 12"
-          style="fill:var(--bottle-label-ink)">38</text>
-      </g>
+      ${labelSVG(bottleDescriptionSVG)}
 
       <!-- kraft tag hanging from the neck -->
       <path d="M73 96 C82 104 90 118 96 132" fill="none" stroke="#b08a55" stroke-width="1.4"/>
@@ -120,6 +126,10 @@
     const wine = el.closest(".card[data-wine]")?.dataset.wine || root.dataset.wine;
     setBottleDescription($("[data-bottle-description]", el), wine);
   });
+
+  const headerLogo = $(".header .logo");
+  headerLogo.innerHTML = `<svg class="logo__mark" viewBox="8 238 104 120" aria-hidden="true" focusable="false">${labelSVG()}</svg>`;
+  headerLogo.classList.add("logo--bottle");
 
   // ---------------------------------------------------------------------------
   // 2. Wine selection (hero slider + cards)

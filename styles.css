@@ -198,6 +198,22 @@ ul {
   transform: rotate(4deg) scale(1.05);
 }
 
+.header .logo--bottle {
+  width: 70px;
+  height: 70px;
+  background: none;
+  transform: none;
+}
+
+.header .logo--bottle:hover {
+  transform: scale(1.05);
+}
+
+.logo__mark {
+  width: 100%;
+  height: 100%;
+}
+
 .nav {
   display: flex;
   align-items: center;

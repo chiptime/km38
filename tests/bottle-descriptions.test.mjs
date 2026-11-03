@@ -28,12 +28,34 @@ window.addEventListener('load', async () => {
   const root = document.documentElement;
   const cards = [...document.querySelectorAll('.card[data-wine]')];
   const flier = document.querySelector('[data-flier] svg');
+  const headerLogo = document.querySelector('.header .logo');
+  const headerMark = headerLogo.querySelector('svg');
   const description = svg => svg.querySelector('[data-bottle-description]')?.textContent.trim();
   const firstDots = [...cards[0].querySelectorAll('.bottle-dots circle')]
     .map(dot => [dot.getAttribute('cx'), dot.getAttribute('cy'), dot.getAttribute('r')].join(','))
     .join(';');
 
   check(cards.length === 3 && !!flier, 'three cards and one flying bottle');
+  check(headerLogo.getAttribute('href') === '#top', 'header logo remains a home link');
+  check(headerLogo.getAttribute('aria-label') === 'KM38, volver al inicio', 'header logo retains its accessible name');
+  check(headerMark?.getAttribute('aria-hidden') === 'true', 'header logo is decorative inside its named link');
+  check(headerMark?.querySelector('.bottle-brand')?.outerHTML === flier.querySelector('.bottle-brand').outerHTML, 'header shares the bottle wordmark and glyph rotations');
+  const headerCircle = headerMark?.querySelector('.bottle-label');
+  const bottleCircle = flier.querySelector('.bottle-label');
+  check(headerCircle && ['cx', 'cy', 'r'].every(name => headerCircle.getAttribute(name) === bottleCircle.getAttribute(name)), 'header shares the bottle circle');
+  const glyphs = [...flier.querySelectorAll('.bottle-brand text')];
+  check(
+    glyphs.length === 2 && glyphs[0].getAttribute('rotate') === '-12 -7' && glyphs[1].getAttribute('rotate') === '-12 12',
+    'original bottle glyph angles preserved'
+  );
+  check(
+    glyphs.length === 2 && glyphs[0].getAttribute('x') === '45 75' && glyphs[0].getAttribute('y') === '288 292' &&
+      glyphs[1].getAttribute('x') === '48 72' && glyphs[1].getAttribute('y') === '328 330',
+    'original bottle glyph positions preserved'
+  );
+  check(glyphs.length === 2 && glyphs[0].getAttribute('font-size') === '55' && glyphs[1].getAttribute('font-size') === '68', 'original bottle glyph sizes preserved');
+  check(bottleCircle.getAttribute('cx') === '60' && bottleCircle.getAttribute('cy') === '292' && bottleCircle.getAttribute('r') === '44', 'original bottle circle preserved');
+  check(document.querySelector('.footer .logo span') !== null, 'footer logo remains unchanged');
   for (const card of cards) {
     const wine = card.dataset.wine;
     const svg = card.querySelector('svg');
@@ -58,6 +80,7 @@ window.addEventListener('load', async () => {
     check(root.dataset.wine === wine, 'slider selection: ' + wine);
     check(description(flier) === expected[wine].label, 'flying description: ' + wine);
     check(document.querySelector('[data-wine-temp]').textContent.trim() === expected[wine].temp, 'slider temperature: ' + wine);
+    check(headerCircle && getComputedStyle(headerCircle).fill === getComputedStyle(bottleCircle).fill, 'header circle follows the selected bottle: ' + wine);
     document.querySelector('[data-next]').click();
   }
   check(root.dataset.wine === 'gran-reserva', 'next wraps');
@@ -72,6 +95,18 @@ window.addEventListener('load', async () => {
   check(root.dataset.wine === 'gran-reserva' && description(flier) === expected['gran-reserva'].label, 'keyboard next wraps');
   document.body.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowLeft', bubbles: true}));
   check(root.dataset.wine === 'blanco' && description(flier) === expected.blanco.label, 'keyboard previous wraps');
+
+  const frame = document.createElement('iframe');
+  frame.setAttribute('sandbox', 'allow-same-origin');
+  const frameLoaded = new Promise(resolve => frame.addEventListener('load', resolve, {once: true}));
+  frame.src = '/';
+  document.body.append(frame);
+  await frameLoaded;
+  const fallback = frame.contentDocument.querySelector('.header .logo');
+  check(fallback?.getAttribute('aria-label') === 'KM38, volver al inicio', 'fallback logo remains accessible');
+  check([...(fallback?.querySelectorAll('span') || [])].map(span => span.textContent).join('') === 'km38', 'fallback logo works without scripts');
+  check(fallback && !fallback.querySelector('svg'), 'fallback logo does not require JavaScript');
+  frame.remove();
 
   const proof = document.createElement('pre');
   proof.id = 'bottle-test-result';
