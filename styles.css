@@ -23,6 +23,7 @@
   --font-sans: "Archivo", system-ui, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
   --font-hand: "Gaegu", "Comic Sans MS", cursive;
+  --bottle-label-ink: #000000;
 
   --pad: clamp(20px, 5vw, 80px);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -30,11 +31,14 @@
 
 /* Wine palettes ----------------------------------------------------------- */
 [data-wine="gran-reserva"] {
-  --glass: #33201d;
-  --dot-a: #f2d9b8;
-  --dot-b: #d6ad83;
-  --dot-c: #9e755d;
+  --glass: #2b0b14;
+  --dot-a: #f5e5d8;
+  --dot-b: #e2c0a7;
+  --dot-c: #c79572;
+  --dot-d: #a66a45;
+  --dot-e: #814521;
   --wax: #59372c;
+  --bottle-label: #ac9756;
   --label: #d8ab72;
   --label-ink: #33201d;
   --accent: #925547;
@@ -44,10 +48,13 @@
 
 [data-wine="tinto"] {
   --glass: #2b0b14;
-  --dot-a: #f4c1bd;
-  --dot-b: #d36c7f;
-  --dot-c: #93283f;
+  --dot-a: #f4e3ed;
+  --dot-b: #e0b8d0;
+  --dot-c: #c98cb5;
+  --dot-d: #ad6098;
+  --dot-e: #8e3e7b;
   --wax: #6e1427;
+  --bottle-label: #b4b3b3;
   --label: #e3a893;
   --label-ink: #2b0b14;
   --accent: #91515a;
@@ -56,11 +63,14 @@
 }
 
 [data-wine="blanco"] {
-  --glass: #d6cc84;
-  --dot-a: #fffbea;
-  --dot-b: #f1d052;
-  --dot-c: #b8952a;
+  --glass: #2b0b14;
+  --dot-a: #f6f9e8;
+  --dot-b: #e5ecc2;
+  --dot-c: #d2de9c;
+  --dot-d: #bacb6f;
+  --dot-e: #9eb448;
   --wax: #d9a423;
+  --bottle-label: #b75b1a;
   --label: #f3dfa5;
   --label-ink: #3a3212;
   --accent: #826514;

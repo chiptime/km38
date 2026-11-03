@@ -9,9 +9,9 @@
   "use strict";
 
   const WINES = {
-    "gran-reserva": { name: "Gran Reserva", temp: "Servir entre -16 y -18 °C", theme: "#33201d" },
-    tinto: { name: "Tinto Joven", temp: "Servir entre -14 y -16 °C", theme: "#2b0b14" },
-    blanco: { name: "Blanco Joven", temp: "Servir entre -8 y -10 °C", theme: "#3a3212" },
+    "gran-reserva": { name: "Gran Reserva", description: ["Vino Gran", "Reserva"], temp: "Servir entre -16 y -18 °C", theme: "#33201d" },
+    tinto: { name: "Tinto Joven", description: ["Vino tinto"], temp: "Servir entre -14 y -16 °C", theme: "#2b0b14" },
+    blanco: { name: "Blanco Joven", description: ["Vino blanco"], temp: "Servir entre -8 y -10 °C", theme: "#3a3212" },
   };
   const ORDER = ["gran-reserva", "tinto", "blanco"];
 
@@ -45,7 +45,8 @@
       return seed / 4294967296;
     };
     const GAP = 13;
-    const COLORS = ["--dot-a", "--dot-b", "--dot-c"];
+    // The edge column precedes the light-to-dark sequence in the artwork.
+    const COLORS = ["--dot-e", "--dot-a", "--dot-b", "--dot-c", "--dot-d"];
     let dots = "";
     let col = 0;
     for (let x = 6; x < 122; x += GAP, col += 1) {
@@ -85,16 +86,14 @@
       <rect x="49" y="8" width="3" height="46" rx="1.5" fill="#fff" opacity=".18"/>
 
       <!-- round label -->
-      <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--label)"/>
-      <text x="60" y="253" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
-        letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">VINO DE</text>
-      <text x="60" y="261" text-anchor="middle" font-family="Archivo, sans-serif" font-size="5.2"
-        letter-spacing=".6" style="fill:var(--label-ink)" opacity=".75">FINCA</text>
+      <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--bottle-label)"/>
+      <text data-bottle-description x="60" y="258" text-anchor="middle" font-size="6"
+        letter-spacing=".4" style="fill:var(--bottle-label-ink);font-family:var(--font-hand);font-weight:700"></text>
       <g class="bottle-brand">
-        <text x="46 74" y="292 296" text-anchor="middle" font-size="40" rotate="-12 -7"
-          style="fill:var(--label-ink)">km</text>
-        <text x="51 67" y="324 326" text-anchor="middle" font-size="50" rotate="-12 12"
-          style="fill:var(--label-ink)">38</text>
+        <text x="45 75" y="288 292" text-anchor="middle" font-size="55" rotate="-12 -7"
+          style="fill:var(--bottle-label-ink)">km</text>
+        <text x="48 72" y="328 330" text-anchor="middle" font-size="68" rotate="-12 12"
+          style="fill:var(--bottle-label-ink)">38</text>
       </g>
 
       <!-- kraft tag hanging from the neck -->
@@ -104,8 +103,22 @@
       <circle cx="98" cy="136" r="1.8" style="fill:var(--paper)"/>
     </svg>`;
 
+  function setBottleDescription(text, wine) {
+    const description = WINES[wine].description;
+    const lines = description.map((line, index) => {
+      const span = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      span.setAttribute("x", "60");
+      span.setAttribute("dy", index === 0 ? "0" : "6");
+      span.textContent = index < description.length - 1 ? `${line} ` : line;
+      return span;
+    });
+    text.replaceChildren(...lines);
+  }
+
   $$("[data-bottle]").forEach((el, index) => {
     el.innerHTML = bottleSVG(index + 1);
+    const wine = el.closest(".card[data-wine]")?.dataset.wine || root.dataset.wine;
+    setBottleDescription($("[data-bottle-description]", el), wine);
   });
 
   // ---------------------------------------------------------------------------
@@ -127,6 +140,7 @@
     nameEl.textContent = WINES[id].name;
     tempEl.textContent = WINES[id].temp;
     indexEl.textContent = String(step).padStart(2, "0");
+    setBottleDescription($("[data-flier] [data-bottle-description]"), id);
     themeMeta?.setAttribute("content", WINES[id].theme);
 
     measure();
