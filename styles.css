@@ -722,22 +722,30 @@ ul {
   background-size: 18px 18px, cover;
 }
 
-.grape--malvar {
+/* Each wine circle reuses its bottle dot palette (styles: [data-wine] blocks). */
+.grape--blanco {
   background-image:
     radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.55) 0 3px, transparent 4px),
-    radial-gradient(circle at 30% 30%, #ece58f, #9faf45);
+    radial-gradient(circle at 30% 30%, #f6f9e8, #d2de9c 50%, #9eb448);
 }
 
-.grape--tempranillo {
+.grape--tinto {
   background-image:
     radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.35) 0 3px, transparent 4px),
-    radial-gradient(circle at 30% 30%, #7b2a52, #2a0b22);
+    radial-gradient(circle at 30% 30%, #f4e3ed, #c98cb5 50%, #8e3e7b);
 }
 
-.grape--garnacha {
+.grape--gran-reserva {
   background-image:
     radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.4) 0 3px, transparent 4px),
-    radial-gradient(circle at 30% 30%, #e27b98, #8e2a4a);
+    radial-gradient(circle at 30% 30%, #f5e5d8, #c79572 50%, #814521);
+}
+
+.grapes__type {
+  margin-top: -6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.7;
 }
 
 /* Wines ------------------------------------------------------------------- */
