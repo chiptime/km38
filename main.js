@@ -127,9 +127,10 @@
     setBottleDescription($("[data-bottle-description]", el), wine);
   });
 
-  const headerLogo = $(".header .logo");
-  headerLogo.innerHTML = `<svg class="logo__mark" viewBox="8 238 104 120" aria-hidden="true" focusable="false">${labelSVG()}</svg>`;
-  headerLogo.classList.add("logo--bottle");
+  $$(".header .logo, .footer .logo").forEach((logo) => {
+    logo.innerHTML = `<svg class="logo__mark" viewBox="8 238 104 120" aria-hidden="true" focusable="false">${labelSVG()}</svg>`;
+    logo.classList.add("logo--bottle");
+  });
 
   // ---------------------------------------------------------------------------
   // 2. Wine selection (hero slider + cards)

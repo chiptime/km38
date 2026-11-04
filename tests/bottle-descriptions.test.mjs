@@ -30,6 +30,8 @@ window.addEventListener('load', async () => {
   const flier = document.querySelector('[data-flier] svg');
   const headerLogo = document.querySelector('.header .logo');
   const headerMark = headerLogo.querySelector('svg');
+  const footerLogo = document.querySelector('.footer .logo');
+  const footerMark = footerLogo.querySelector('svg');
   const description = svg => svg.querySelector('[data-bottle-description]')?.textContent.trim();
   const firstDots = [...cards[0].querySelectorAll('.bottle-dots circle')]
     .map(dot => [dot.getAttribute('cx'), dot.getAttribute('cy'), dot.getAttribute('r')].join(','))
@@ -55,7 +57,12 @@ window.addEventListener('load', async () => {
   );
   check(glyphs.length === 2 && glyphs[0].getAttribute('font-size') === '55' && glyphs[1].getAttribute('font-size') === '68', 'original bottle glyph sizes preserved');
   check(bottleCircle.getAttribute('cx') === '60' && bottleCircle.getAttribute('cy') === '292' && bottleCircle.getAttribute('r') === '44', 'original bottle circle preserved');
-  check(document.querySelector('.footer .logo span') !== null, 'footer logo remains unchanged');
+  check(footerLogo.getAttribute('href') === headerLogo.getAttribute('href'), 'footer logo is a home link');
+  check(footerLogo.getAttribute('aria-label') === headerLogo.getAttribute('aria-label'), 'footer logo has the same accessible name');
+  check(footerMark?.outerHTML === headerMark?.outerHTML, 'footer shares the header logo');
+  for (const property of ['width', 'height', 'backgroundColor', 'transform']) {
+    check(getComputedStyle(footerLogo)[property] === getComputedStyle(headerLogo)[property], 'footer logo matches header ' + property);
+  }
   for (const card of cards) {
     const wine = card.dataset.wine;
     const svg = card.querySelector('svg');
@@ -81,6 +88,7 @@ window.addEventListener('load', async () => {
     check(description(flier) === expected[wine].label, 'flying description: ' + wine);
     check(document.querySelector('[data-wine-temp]').textContent.trim() === expected[wine].temp, 'slider temperature: ' + wine);
     check(headerCircle && getComputedStyle(headerCircle).fill === getComputedStyle(bottleCircle).fill, 'header circle follows the selected bottle: ' + wine);
+    check(footerMark?.querySelector('.bottle-label') && getComputedStyle(footerMark.querySelector('.bottle-label')).fill === getComputedStyle(bottleCircle).fill, 'footer circle follows the selected bottle: ' + wine);
     document.querySelector('[data-next]').click();
   }
   check(root.dataset.wine === 'gran-reserva', 'next wraps');
@@ -106,6 +114,9 @@ window.addEventListener('load', async () => {
   check(fallback?.getAttribute('aria-label') === 'KM38, volver al inicio', 'fallback logo remains accessible');
   check([...(fallback?.querySelectorAll('span') || [])].map(span => span.textContent).join('') === 'km38', 'fallback logo works without scripts');
   check(fallback && !fallback.querySelector('svg'), 'fallback logo does not require JavaScript');
+  const footerFallback = frame.contentDocument.querySelector('.footer .logo');
+  check(footerFallback?.getAttribute('aria-label') === 'KM38, volver al inicio', 'footer fallback remains accessible');
+  check([...(footerFallback?.querySelectorAll('span') || [])].map(span => span.textContent).join('') === 'km38', 'footer fallback works without scripts');
   frame.remove();
 
   const proof = document.createElement('pre');
