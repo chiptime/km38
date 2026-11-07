@@ -19,9 +19,9 @@ window.addEventListener('load', async () => {
   document.head.append(style);
 
   const expected = {
-    'gran-reserva': { label: 'Vino Gran Reserva', temp: 'Servir entre -16 y -18 °C', color: 'rgb(172, 151, 86)' },
-    tinto: { label: 'Vino tinto', temp: 'Servir entre -14 y -16 °C', color: 'rgb(180, 179, 179)' },
-    blanco: { label: 'Vino blanco', temp: 'Servir entre -8 y -10 °C', color: 'rgb(183, 91, 26)' }
+    'gran-reserva': { temp: 'Servir entre 16 y 18 °C', color: 'rgb(172, 151, 86)' },
+    tinto: { temp: 'Servir entre 12 y 14 °C', color: 'rgb(180, 179, 179)' },
+    blanco: { temp: 'Servir entre 6 y 12 °C', color: 'rgb(183, 91, 26)' }
   };
   const failures = [];
   const check = (condition, message) => { if (!condition) failures.push(message); };
@@ -32,7 +32,6 @@ window.addEventListener('load', async () => {
   const headerMark = headerLogo.querySelector('svg');
   const footerLogo = document.querySelector('.footer .logo');
   const footerMark = footerLogo.querySelector('svg');
-  const description = svg => svg.querySelector('[data-bottle-description]')?.textContent.trim();
   const firstDots = [...cards[0].querySelectorAll('.bottle-dots circle')]
     .map(dot => [dot.getAttribute('cx'), dot.getAttribute('cy'), dot.getAttribute('r')].join(','))
     .join(';');
@@ -41,22 +40,21 @@ window.addEventListener('load', async () => {
   check(headerLogo.getAttribute('href') === '#top', 'header logo remains a home link');
   check(headerLogo.getAttribute('aria-label') === 'KM38, volver al inicio', 'header logo retains its accessible name');
   check(headerMark?.getAttribute('aria-hidden') === 'true', 'header logo is decorative inside its named link');
-  check(headerMark?.querySelector('.bottle-brand')?.outerHTML === flier.querySelector('.bottle-brand').outerHTML, 'header shares the bottle wordmark and glyph rotations');
+  check(!flier.querySelector('.bottle-brand'), 'flying bottle has no logo mark');
+  check(!flier.querySelector('.bottle-label'), 'flying bottle has no round label');
   const headerCircle = headerMark?.querySelector('.bottle-label');
-  const bottleCircle = flier.querySelector('.bottle-label');
-  check(headerCircle && ['cx', 'cy', 'r'].every(name => headerCircle.getAttribute(name) === bottleCircle.getAttribute(name)), 'header shares the bottle circle');
-  const glyphs = [...flier.querySelectorAll('.bottle-brand text')];
+  const glyphs = [...headerMark.querySelectorAll('.bottle-brand text')];
   check(
     glyphs.length === 2 && glyphs[0].getAttribute('rotate') === '-12 -7' && glyphs[1].getAttribute('rotate') === '-12 12',
-    'original bottle glyph angles preserved'
+    'original logo glyph angles preserved in header'
   );
   check(
     glyphs.length === 2 && glyphs[0].getAttribute('x') === '45 75' && glyphs[0].getAttribute('y') === '288 292' &&
       glyphs[1].getAttribute('x') === '48 72' && glyphs[1].getAttribute('y') === '328 330',
-    'original bottle glyph positions preserved'
+    'original logo glyph positions preserved in header'
   );
-  check(glyphs.length === 2 && glyphs[0].getAttribute('font-size') === '55' && glyphs[1].getAttribute('font-size') === '68', 'original bottle glyph sizes preserved');
-  check(bottleCircle.getAttribute('cx') === '60' && bottleCircle.getAttribute('cy') === '292' && bottleCircle.getAttribute('r') === '44', 'original bottle circle preserved');
+  check(glyphs.length === 2 && glyphs[0].getAttribute('font-size') === '55' && glyphs[1].getAttribute('font-size') === '68', 'original logo glyph sizes preserved in header');
+  check(headerCircle && headerCircle.getAttribute('cx') === '60' && headerCircle.getAttribute('cy') === '292' && headerCircle.getAttribute('r') === '44', 'original logo circle preserved in header');
   check(footerLogo.getAttribute('href') === headerLogo.getAttribute('href'), 'footer logo is a home link');
   check(footerLogo.getAttribute('aria-label') === headerLogo.getAttribute('aria-label'), 'footer logo has the same accessible name');
   check(footerMark?.outerHTML === headerMark?.outerHTML, 'footer shares the header logo');
@@ -66,13 +64,9 @@ window.addEventListener('load', async () => {
   for (const card of cards) {
     const wine = card.dataset.wine;
     const svg = card.querySelector('svg');
-    const caption = svg.querySelector('[data-bottle-description]');
-    check(description(svg) === expected[wine].label, 'card description: ' + wine);
-    check(caption && +caption.getAttribute('y') >= 257, 'lowered description: ' + wine);
-    check(caption && getComputedStyle(caption).fontFamily.includes('Gaegu'), 'handwritten description: ' + wine);
-    check(caption && caption.querySelectorAll('tspan').length === (wine === 'gran-reserva' ? 2 : 1), 'caption lines: ' + wine);
+    check(!svg.querySelector('.bottle-brand'), 'card bottle has no logo mark: ' + wine);
+    check(!svg.querySelector('.bottle-label'), 'card bottle has no round label: ' + wine);
     check(card.querySelector('.card__temp').textContent.trim() === expected[wine].temp, 'card temperature: ' + wine);
-    check(getComputedStyle(svg.querySelector('.bottle-label')).fill === expected[wine].color, 'label color: ' + wine);
     const dots = [...svg.querySelectorAll('.bottle-dots circle')];
     check(dots.length === 243, 'dot count: ' + wine);
     check(dots.map(dot => [dot.getAttribute('cx'), dot.getAttribute('cy'), dot.getAttribute('r')].join(',')).join(';') === firstDots, 'deterministic dots: ' + wine);
@@ -85,24 +79,23 @@ window.addEventListener('load', async () => {
 
   for (const wine of ['gran-reserva', 'tinto', 'blanco']) {
     check(root.dataset.wine === wine, 'slider selection: ' + wine);
-    check(description(flier) === expected[wine].label, 'flying description: ' + wine);
     check(document.querySelector('[data-wine-temp]').textContent.trim() === expected[wine].temp, 'slider temperature: ' + wine);
-    check(headerCircle && getComputedStyle(headerCircle).fill === getComputedStyle(bottleCircle).fill, 'header circle follows the selected bottle: ' + wine);
-    check(footerMark?.querySelector('.bottle-label') && getComputedStyle(footerMark.querySelector('.bottle-label')).fill === getComputedStyle(bottleCircle).fill, 'footer circle follows the selected bottle: ' + wine);
+    check(headerCircle && getComputedStyle(headerCircle).fill === expected[wine].color, 'header circle follows the selected bottle: ' + wine);
+    check(footerMark?.querySelector('.bottle-label') && getComputedStyle(footerMark.querySelector('.bottle-label')).fill === expected[wine].color, 'footer circle follows the selected bottle: ' + wine);
     document.querySelector('[data-next]').click();
   }
   check(root.dataset.wine === 'gran-reserva', 'next wraps');
   document.querySelector('[data-prev]').click();
-  check(root.dataset.wine === 'blanco' && description(flier) === expected.blanco.label, 'previous wraps');
+  check(root.dataset.wine === 'blanco', 'previous wraps');
   for (const wine of ['gran-reserva', 'tinto', 'blanco']) {
     document.querySelector('[data-want="' + wine + '"]').click();
-    check(root.dataset.wine === wine && description(flier) === expected[wine].label, 'card selection: ' + wine);
+    check(root.dataset.wine === wine, 'card selection: ' + wine);
   }
   check(document.querySelector('[data-cart-count]').textContent === '3', 'decorative cart count');
   document.body.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowRight', bubbles: true}));
-  check(root.dataset.wine === 'gran-reserva' && description(flier) === expected['gran-reserva'].label, 'keyboard next wraps');
+  check(root.dataset.wine === 'gran-reserva', 'keyboard next wraps');
   document.body.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowLeft', bubbles: true}));
-  check(root.dataset.wine === 'blanco' && description(flier) === expected.blanco.label, 'keyboard previous wraps');
+  check(root.dataset.wine === 'blanco', 'keyboard previous wraps');
 
   const frame = document.createElement('iframe');
   frame.setAttribute('sandbox', 'allow-same-origin');

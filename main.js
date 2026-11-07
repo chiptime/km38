@@ -61,19 +61,14 @@
     return dots;
   };
 
-  const labelSVG = (description = "") => `
+  const labelSVG = () => `
       <circle class="bottle-label" cx="60" cy="292" r="44" style="fill:var(--bottle-label)"/>
-      ${description}
       <g class="bottle-brand">
         <text x="45 75" y="288 292" text-anchor="middle" font-size="55" rotate="-12 -7"
           style="fill:var(--bottle-label-ink)">km</text>
         <text x="48 72" y="328 330" text-anchor="middle" font-size="68" rotate="-12 12"
           style="fill:var(--bottle-label-ink)">38</text>
       </g>`;
-
-  const bottleDescriptionSVG = `
-      <text data-bottle-description x="60" y="258" text-anchor="middle" font-size="6"
-        letter-spacing=".4" style="fill:var(--bottle-label-ink);font-family:var(--font-hand);font-weight:700"></text>`;
 
   const bottleSVG = (id) => `
     <svg viewBox="0 0 124 400" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -99,9 +94,6 @@
         d="M45 4 Q45 2 48 2 H72 Q75 2 75 4 V62 Q75 70 72 70 Q69 70 69 63 V58 Q68 74 64 74 Q60 74 60 66 V60 Q59 68 55 68 Q51 68 51 61 V57 Q50 64 47.5 64 Q45 64 45 58 Z"/>
       <rect x="49" y="8" width="3" height="46" rx="1.5" fill="#fff" opacity=".18"/>
 
-      <!-- round label -->
-      ${labelSVG(bottleDescriptionSVG)}
-
       <!-- kraft tag hanging from the neck -->
       <path d="M73 96 C82 104 90 118 96 132" fill="none" stroke="#b08a55" stroke-width="1.4"/>
       <path d="M47 96 C55 100 66 100 73 96" fill="none" stroke="#b08a55" stroke-width="1.6"/>
@@ -109,22 +101,8 @@
       <circle cx="98" cy="136" r="1.8" style="fill:var(--paper)"/>
     </svg>`;
 
-  function setBottleDescription(text, wine) {
-    const description = WINES[wine].description;
-    const lines = description.map((line, index) => {
-      const span = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-      span.setAttribute("x", "60");
-      span.setAttribute("dy", index === 0 ? "0" : "6");
-      span.textContent = index < description.length - 1 ? `${line} ` : line;
-      return span;
-    });
-    text.replaceChildren(...lines);
-  }
-
   $$("[data-bottle]").forEach((el, index) => {
     el.innerHTML = bottleSVG(index + 1);
-    const wine = el.closest(".card[data-wine]")?.dataset.wine || root.dataset.wine;
-    setBottleDescription($("[data-bottle-description]", el), wine);
   });
 
   $$(".header .logo, .footer .logo").forEach((logo) => {
@@ -151,7 +129,6 @@
     nameEl.textContent = WINES[id].name;
     tempEl.textContent = WINES[id].temp;
     indexEl.textContent = String(step).padStart(2, "0");
-    setBottleDescription($("[data-flier] [data-bottle-description]"), id);
     themeMeta?.setAttribute("content", WINES[id].theme);
 
     measure();
